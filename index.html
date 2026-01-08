@@ -16,6 +16,55 @@
     </script>
     <!-- End UTMify Pixel Code -->
 
+    <!-- Custom UTMify Tracking Script -->
+    <script>
+      (function() {
+        // Função para verificar se o objeto utmify está pronto
+        var checkUtmify = setInterval(function() {
+          if (typeof window.utmify === 'function') {
+            clearInterval(checkUtmify);
+            // Disparar PageView assim que o pixel estiver carregado
+            console.log("[UTMify] PageView fired");
+            window.utmify("PageView");
+          }
+        }, 500);
+
+        // Monitorar cliques em todo o documento (Event Delegation) para suportar elementos dinâmicos do React
+        document.addEventListener('click', function(e) {
+          // Procura pelo elemento <a> ou <button> mais próximo do clique
+          var target = e.target.closest('a, button');
+          
+          if (target) {
+            var href = target.href || '';
+            var text = (target.textContent || '').toLowerCase().trim();
+            
+            // Critérios para identificar um CTA
+            var isCheckoutLink = href.indexOf('checkout-ds24.com') !== -1;
+            var keywords = ['jetzt kaufen', 'jetzt bestellen', 'jetzt starten', 'buy', 'checkout'];
+            var isCtaText = false;
+            
+            for (var i = 0; i < keywords.length; i++) {
+              if (text.indexOf(keywords[i]) !== -1) {
+                isCtaText = true;
+                break;
+              }
+            }
+
+            // Se for um CTA válido, dispara o evento ClickCTA
+            if (isCheckoutLink || isCtaText) {
+              if (typeof window.utmify === 'function') {
+                console.log("[UTMify] ClickCTA fired");
+                window.utmify("ClickCTA");
+              } else {
+                console.log("[UTMify] Click detected but pixel not ready yet");
+              }
+            }
+          }
+        });
+      })();
+    </script>
+    <!-- End Custom UTMify Tracking Script -->
+
     <!-- Performance: Resource Hints (DNS Prefetch & Preconnect) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
