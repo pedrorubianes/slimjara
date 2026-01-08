@@ -6,64 +6,57 @@
     <title>SlimJara Offer</title>
     
     <!-- UTMify Pixel Code -->
-    <script>
-      window.pixelId = "695eef3fde4093a4596d07ab";
-      var a = document.createElement("script");
-      a.setAttribute("async", "");
-      a.setAttribute("defer", "");
-      a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
-      document.head.appendChild(a);
-    </script>
-    <!-- End UTMify Pixel Code -->
+<script>
+  window.pixelId = "695eef3fde4093a4596d07ab";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script>
+<!-- End UTMify Pixel Code -->
 
-    <!-- Custom UTMify Tracking Script -->
-    <script>
-      (function() {
-        // Função para verificar se o objeto utmify está pronto
-        var checkUtmify = setInterval(function() {
-          if (typeof window.utmify === 'function') {
-            clearInterval(checkUtmify);
-            // Disparar PageView assim que o pixel estiver carregado
-            console.log("[UTMify] PageView fired");
-            window.utmify("PageView");
-          }
-        }, 500);
+<!-- UTMify Event Tracking -->
+<script>
+(function () {
+  function waitForUtmify(callback) {
+    if (window.utmify && typeof window.utmify.track === "function") {
+      callback();
+    } else {
+      setTimeout(function () {
+        waitForUtmify(callback);
+      }, 300);
+    }
+  }
 
-        // Monitorar cliques em todo o documento (Event Delegation) para suportar elementos dinâmicos do React
-        document.addEventListener('click', function(e) {
-          // Procura pelo elemento <a> ou <button> mais próximo do clique
-          var target = e.target.closest('a, button');
-          
-          if (target) {
-            var href = target.href || '';
-            var text = (target.textContent || '').toLowerCase().trim();
-            
-            // Critérios para identificar um CTA
-            var isCheckoutLink = href.indexOf('checkout-ds24.com') !== -1;
-            var keywords = ['jetzt kaufen', 'jetzt bestellen', 'jetzt starten', 'buy', 'checkout'];
-            var isCtaText = false;
-            
-            for (var i = 0; i < keywords.length; i++) {
-              if (text.indexOf(keywords[i]) !== -1) {
-                isCtaText = true;
-                break;
-              }
-            }
+  waitForUtmify(function () {
+    window.utmify.track("PageView");
+    console.log("[UTMIFY] PageView disparado");
 
-            // Se for um CTA válido, dispara o evento ClickCTA
-            if (isCheckoutLink || isCtaText) {
-              if (typeof window.utmify === 'function') {
-                console.log("[UTMify] ClickCTA fired");
-                window.utmify("ClickCTA");
-              } else {
-                console.log("[UTMify] Click detected but pixel not ready yet");
-              }
-            }
-          }
-        });
-      })();
-    </script>
-    <!-- End Custom UTMify Tracking Script -->
+    document.addEventListener("click", function (e) {
+      var el = e.target.closest("a, button");
+      if (!el) return;
+
+      var text = (el.innerText || "").toLowerCase();
+      var href = el.getAttribute("href") || "";
+
+      var isCTA =
+        href.includes("checkout-ds24.com") ||
+        text.includes("jetzt") ||
+        text.includes("kaufen") ||
+        text.includes("bestellen") ||
+        text.includes("checkout") ||
+        text.includes("buy");
+
+      if (isCTA) {
+        window.utmify.track("ClickCTA");
+        console.log("[UTMIFY] ClickCTA disparado");
+      }
+    });
+  });
+})();
+</script>
+<!-- End UTMify Event Tracking -->
 
     <!-- Performance: Resource Hints (DNS Prefetch & Preconnect) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
