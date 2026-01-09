@@ -5,58 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SlimJara Offer</title>
     
-    <!-- UTMify Pixel Code -->
-<script>
-  window.pixelId = "695eef3fde4093a4596d07ab";
-  var a = document.createElement("script");
-  a.setAttribute("async", "");
-  a.setAttribute("defer", "");
-  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
-  document.head.appendChild(a);
-</script>
-<!-- End UTMify Pixel Code -->
+    <!-- UTMify & Pixel Integration -->
+    <script>
+      window.addEventListener("load", function () {
+        var s = document.createElement("script");
+        s.src = "https://cdn.utmify.com.br/scripts/utms/latest.js";
+        s.setAttribute("data-utmify-prevent-xcod-sck", "");
+        s.setAttribute("data-utmify-prevent-subids", "");
+        document.head.appendChild(s);
 
-<!-- UTMify Event Tracking -->
-<script>
-(function () {
-  function waitForUtmify(callback) {
-    if (window.utmify && typeof window.utmify.track === "function") {
-      callback();
-    } else {
-      setTimeout(function () {
-        waitForUtmify(callback);
-      }, 300);
-    }
-  }
-
-  waitForUtmify(function () {
-    window.utmify.track("PageView");
-    console.log("[UTMIFY] PageView disparado");
-
-    document.addEventListener("click", function (e) {
-      var el = e.target.closest("a, button");
-      if (!el) return;
-
-      var text = (el.innerText || "").toLowerCase();
-      var href = el.getAttribute("href") || "";
-
-      var isCTA =
-        href.includes("checkout-ds24.com") ||
-        text.includes("jetzt") ||
-        text.includes("kaufen") ||
-        text.includes("bestellen") ||
-        text.includes("checkout") ||
-        text.includes("buy");
-
-      if (isCTA) {
-        window.utmify.track("ClickCTA");
-        console.log("[UTMIFY] ClickCTA disparado");
-      }
-    });
-  });
-})();
-</script>
-<!-- End UTMify Event Tracking -->
+        s.onload = function () {
+          window.pixelId = "695eef3fde4093a4596d07ab";
+          var a = document.createElement("script");
+          a.src = "https://cdn.utmify.com.br/scripts/pixel/pixel.js";
+          document.head.appendChild(a);
+        };
+      });
+    </script>
+    <!-- End UTMify & Pixel Integration -->
 
     <!-- Performance: Resource Hints (DNS Prefetch & Preconnect) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -115,7 +81,7 @@
   }
 }
 </script>
-  <script type="module" crossorigin src="/assets/index-lSW-y5ft.js"></script>
+  <script type="module" crossorigin src="/assets/index-BifaMJes.js"></script>
 </head>
   <body class="bg-white text-black">
     <div id="root"></div>
